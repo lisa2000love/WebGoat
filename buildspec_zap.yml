@@ -11,5 +11,5 @@ phases:
       - echo "build phase....."
   post_build:
     commands:
-      - aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceids,Values=i-0594735cb2923b48d" --parameters "commands=['/home/ec2-user/ZAP_2.14.0/zap.sh -cmd -quickurl http://43.200.16.60:8080/WebGoat -quickout /home/ec2-user/zap-scan-report.json']" --region ap-northeast-2
+      - aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceids,Values=i-0594735cb2923b48d" --parameters "commands=['python3 /home/ec2-user/report.py']" --region ap-northeast-2
       - echo "Build completed on $(date)"
