@@ -9,13 +9,13 @@ phases:
   build:
     commands:
       - echo "build phase....."
-      - echo "$CODEBUILD_SRC_DIR"
       - aws s3 cp s3://dast-hbucket/Report/zap-scan-report.json /home/ec2-user/zap-scan-report.json
       - aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceids,Values=i-0594735cb2923b48d" --parameters "commands=['python3 /home/ec2-user/report.py']" --region ap-northeast-2
   post_build:
     commands:
       - risk_code_high=$(python -c "import json; data = json.load(open('/home/ec2-user/zap-scan-report.json')); print(sum(1 for item in data['site'][0]['alerts'] if item.get('riskcode') == '3'))")
       - if [ "$risk_code_high" -gt 0 ]; then
-          echo "There are high alerts. Failing the build."; # exit 1;
+          echo "There are high alerts. Failing the build.";
+          exit 1;
         fi
       - echo "Build completed on $(date)"
