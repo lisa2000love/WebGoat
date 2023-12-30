@@ -16,7 +16,6 @@ phases:
     commands:
       - risk_code_high=$(python -c "import json; data = json.load(open('/home/ec2-user/zap-scan-report.json')); print(sum(1 for item in data['site'][0]['alerts'] if item.get('riskcode') == '3'))")
       - if [ "$risk_code_high" -gt 0 ]; then
-          echo "There are high alerts. Failing the build.";
-          #exit 1;
+          echo "There are high alerts. Failing the build."; #exit 1;
         fi
       - echo "Build completed on $(date)"
