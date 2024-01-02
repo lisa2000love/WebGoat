@@ -9,7 +9,7 @@ phases:
   build:
     commands:
       - echo "build phase....."
-      - aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceids,Values=i-0594735cb2923b48d" --parameters "commands=['aws s3 cp s3://dast-hbucket/ZAP-build/target/webgoat-2023.6-SNAPSHOT.jar /home/ec2-user/webgoat-2023.6-SNAPSHOT.jar', 'java -jar /home/ec2-user/webgoat-2023.6-SNAPSHOT.jar', 'sleep 45', 'python3 /home/ec2-user/report.py']" --region ap-northeast-2
+      - aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceids,Values=i-0594735cb2923b48d" --parameters "commands=['aws s3 cp s3://dast-hbucket/ZAP-build/target/webgoat-2023.6-SNAPSHOT.jar /home/ec2-user/webgoat-2023.6-SNAPSHOT.jar', 'python3 /home/ec2-user/report.py']" --region ap-northeast-2
       - sleep 100
       - aws s3 cp s3://dast-hbucket/Report/zap-scan-report.json /home/ec2-user/zap-scan-report.json
   post_build:
