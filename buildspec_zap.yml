@@ -6,25 +6,15 @@ phases:
   pre_build:
     commands:
       - echo "pre build phase....."
-      # zap 설치
-      - wget -q https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2.14.0_Linux.tar.gz
-      - tar -zxvf ZAP_2.14.0_Linux.tar.gz
-      - rm ZAP_2.14.0_Linux.tar.gz
-      - chmod +x ./ZAP_2.14.0/zap.sh
-      # zap-cli 설치
-      - pip3 install --upgrade git+https://github.com/Grunny/zap-cli.git
-      - whereis zap-cli
-      - mv /root/.pyenv/shims/zap-cli ./ZAP_2.14.0/
-      - ls ./ZAP_2.14.0
   build:
     commands:
       - echo "build phase....."
-      #- aws s3 cp s3://dast-hbucket/Report/zap-scan-report.json /home/ec2-user/zap-scan-report.json
-      #- aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceids,Values=i-0301c689f48d95298" --parameters "commands=['python3 /home/ec2-user/report.py']" --region ap-northeast-2
+      - aws s3 cp s3://dast-hbucket/Report/zap-scan-report.json /home/ec2-user/zap-scan-report.json
+      - aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceids,Values=i-0301c689f48d95298" --parameters "commands=['python3 /home/ec2-user/report.py']" --region ap-northeast-2
   post_build:
     commands:
-      #- risk_code_high=$(python -c "import json; data = json.load(open('/home/ec2-user/zap-scan-report.json')); print(sum(1 for item in data['site'][0]['alerts'] if item.get('riskcode') == '3'))")
-      #- if [ "$risk_code_high" -gt 0 ]; then
-      #    echo "There are high alerts. Failing the build.";
-      #  fi
+      - risk_code_high=$(python -c "import json; data = json.load(open('/home/ec2-user/zap-scan-report.json')); print(sum(1 for item in data['site'][0]['alerts'] if item.get('riskcode') == '3'))")
+      - if [ "$risk_code_high" -gt 0 ]; then
+          echo "There are high alerts. Failing the build.";
+        fi
       - echo "Build completed on $(date)"
