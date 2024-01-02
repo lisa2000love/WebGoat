@@ -19,3 +19,4 @@ phases:
           echo "There are high alerts. Failing the build.";
         fi
       - echo "Build completed on $(date)"
+runas: ec2-user
