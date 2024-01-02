@@ -29,4 +29,4 @@ artifacts:
   #discard-paths: yes
 post_build:
   commands:
-    - aws s3 cp ./target/webgoat-2023.6-SNAPSHOT.jar s3://dast-hbucket/   # S3 버킷으로 아티팩트 업로드 명령
+    - aws s3 cp ./target/webgoat-2023.6-SNAPSHOT.jar s3://dast-hbucket/webgoat-2023.6-SNAPSHOT.jar   # S3 버킷으로 아티팩트 업로드 명령
