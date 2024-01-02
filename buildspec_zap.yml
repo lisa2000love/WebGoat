@@ -13,7 +13,7 @@ phases:
       - chmod +x ./ZAP_2.14.0/zap.sh
       # zap-cli 설치
       - pip3 install --upgrade git+https://github.com/Grunny/zap-cli.git
-      - whereis zapcli
+      - whereis zap-cli
   build:
     commands:
       - echo "build phase....."
