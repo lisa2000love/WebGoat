@@ -9,8 +9,8 @@ phases:
   build:
     commands:
       - echo "build phase....."
-      - aws s3 cp s3://dast-hbucket/Report/zap-scan-report.json /home/ec2-user/zap-scan-report.json
       - aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceids,Values=i-0301c689f48d95298" --parameters "commands=['python3 /home/ec2-user/report.py']" --region ap-northeast-2
+      - aws s3 cp s3://dast-hbucket/Report/zap-scan-report.json /home/ec2-user/zap-scan-report.json
   post_build:
     commands:
       - risk_code_high=$(python -c "import json; data = json.load(open('/home/ec2-user/zap-scan-report.json')); print(sum(1 for item in data['site'][0]['alerts'] if item.get('riskcode') == '3'))")
