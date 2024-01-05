@@ -11,8 +11,7 @@ phases:
       - echo "build phase....."
       - instance_name="ZapTestInstance"
       - instance_id=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${instance_name}" --query "Reservations[0].Instances[0].InstanceId" --output text --region ap-northeast-2)
-      - aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceids,Values=${instance_id}" --parameters "commands=['aws s3 cp s3://dast-hbucket/ZAP-build/target/webgoat-2023.6-SNAPSHOT.jar /home/ec2-user/webgoat-2023.6-SNAPSHOT.jar','aws s3 cp s3://dast-hbucket/report.py /home/ec2-user/report.py', 'aws s3 cp s3://dast-hbucket/install.py /home/ec2-user/install.py','python3 /home/ec2-user/install.py', 'sudo killall java', 'java -jar /home/ec2-user/webgoat-2023.6-SNAPSHOT.jar', 'python3 /home/ec2-user/report.py', 'sleep 350', 'rm -f /home/ec2-user/zap-scan-report.json']" --region ap-northeast-2
-      - sleep 350
+      - aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceids,Values=${instance_id}" --parameters "commands=['aws s3 cp s3://dast-hbucket/ZAP-build/target/webgoat-2023.6-SNAPSHOT.jar /home/ec2-user/webgoat-2023.6-SNAPSHOT.jar','aws s3 cp s3://dast-hbucket/report.py /home/ec2-user/report.py', 'aws s3 cp s3://dast-hbucket/install.py /home/ec2-user/install.py', 'sleep 50', 'python3 /home/ec2-user/install.py', 'sleep 50', 'sudo killall java', 'java -jar /home/ec2-user/webgoat-2023.6-SNAPSHOT.jar', 'sleep 50', 'python3 /home/ec2-user/report.py', 'sleep 350', 'rm -f /home/ec2-user/zap-scan-report.json']" --region ap-northeast-2
       - aws s3 cp s3://dast-hbucket/Report/zap-scan-report.json /home/ec2-user/zap-scan-report.json
   post_build:
     commands:
